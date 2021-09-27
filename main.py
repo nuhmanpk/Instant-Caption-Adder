@@ -3,7 +3,7 @@ from pyromod import listen
 from pyrogram import Client, filters
 
 
-bughunter0 = Client(
+Bot = Client(
     "Instant-Caption-Adder",
     bot_token = os.environ["BOT_TOKEN"],
     api_id = int(os.environ["API_ID"]),
@@ -15,7 +15,7 @@ CAPTION = os.environ.get("CAPTION", None)
 # Better to add caption through config vars / app.json
 
 
-@bughunter0.on_message(filters.media)
+@Bot.on_message(filters.media)
 async def caption(bot, message):
     chat_id = message.chat.id
     if CAPTION:
@@ -39,4 +39,4 @@ async def get_caption(bot, message):
         return caption.text
 
 
-bughunter0.run()
+Bot.run()
