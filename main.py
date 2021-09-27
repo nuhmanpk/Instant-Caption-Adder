@@ -9,9 +9,14 @@ bughunter0 = Client(
      api_hash = os.environ["API_HASH"]
 )
 
-@bughunter0.on_message(filters.forwarded)
-async def forward(bot,message):
-	await message.delete()
+CAPTION=""" Add Your Caption Here """
 
+# Better to add caption through config vars / app.json
+
+
+@bughunter0.on_message(filters.media)
+async def caption(bot,message):
+	chatid=message.chat.id
+	await message.copy(chat_id=chatid,caption=CAPTION)
 	
 bughunter0.run()
