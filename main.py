@@ -21,16 +21,17 @@ async def caption(bot, message):
     if CAPTION:
         caption = CAPTION
     else:
-        caption = await get_caption(message)
-        return if caption is True else pass
-    await message.copy(chat_id=chatid, caption=caption)
+        caption = await get_caption(bot, message)
+        if caption is True:
+            return
+        await message.copy(chat_id=chat_id, caption=caption, reply_to_message_id=message.message_id)
 
 
-async def get_caption(message):
-    caption = await bot.ask("Send a caption for the media")
+async def get_caption(bot, message):
+    caption = await bot.ask(message.chat.id, "Send a caption for the media or send /cancel for cancelling this process")
     if not caption.text:
         await caption.reply("No caption found", quote=True)
-        return await get_caption(message)
+        return await get_caption(bot, message)
     if caption.text.startswith("/cancel"):
         await caption.reply("Process cancelled", quote=True)
         return True
